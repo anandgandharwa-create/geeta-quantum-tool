@@ -2,29 +2,56 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>चेतना मीटर</title>
+
 <style>
-body{text-align:center;font-family:sans-serif;}
-#meter{
-  width:80%;
-  height:20px;
-  background:#ddd;
-  margin:30px auto;
-  border-radius:10px;
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, sans-serif;
+  background:#0b132b;
+  color:#fff;
+  text-align:center;
+  padding:20px;
 }
+
+h2{font-weight:500;}
+
+#meter{
+  width:100%;
+  max-width:300px;
+  height:18px;
+  background:#333;
+  border-radius:20px;
+  overflow:hidden;
+  margin:25px 0;
+}
+
 #fill{
   height:100%;
   width:0%;
-  background:linear-gradient(to right, red, yellow, green);
-  border-radius:10px;
-  transition:width 3s;
+  background:linear-gradient(to right, red, yellow, #00ffab);
+  transition:width 3s ease;
+}
+
+button{
+  padding:14px 28px;
+  border:none;
+  border-radius:30px;
+  background:#00ffab;
+  font-size:17px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>आपकी वर्तमान चेतना-स्थिति</h2>
+<h2>आपकी वर्तमान<br>चेतना-स्थिति</h2>
 
 <p id="stateText"></p>
 
@@ -36,13 +63,10 @@ body{text-align:center;font-family:sans-serif;}
 
 <script>
 const state = localStorage.getItem("state");
-document.getElementById("stateText").innerText =
- "स्थिति: " + state;
+stateText.innerText="स्थिति: "+state;
 
-let value = Math.floor(30 + Math.random()*60);
-setTimeout(()=>{
- document.getElementById("fill").style.width = value+"%";
-},500);
+let value = 30 + Math.random()*60;
+setTimeout(()=>fill.style.width=value+"%",500);
 
 function next(){
  location.href="result.html";
