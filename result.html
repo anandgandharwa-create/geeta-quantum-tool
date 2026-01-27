@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>गीता संकेत</title>
+</head>
+<body style="text-align:center;">
+
+  <h2>आज आपके लिए गीता का संकेत</h2>
+
+  <p id="result"></p>
+
+  <button onclick="location.href='index.html'">
+    फिर से अनुभव करें
+  </button>
+
+  <script>
+    const state = localStorage.getItem("state");
+
+    const advice = {
+      "भय": "डर से नहीं, बोध से कर्म करें।",
+      "संशय": "निर्णय से पहले स्थिरता आवश्यक है।",
+      "क्रोध": "ऊर्जा को दिशा दें, विस्फोट नहीं।",
+      "आसक्ति": "कर्म करें, पकड़ नहीं।",
+      "शांति": "आप सही मार्ग पर हैं।",
+      "विश्वास": "भीतर की आवाज़ सुनें।",
+      "कर्म": "कर्म ही योग है।",
+      "मौन": "यहीं से साक्षी भाव जन्म लेता है।"
+    };
+
+    document.getElementById("result").innerText =
+      advice[state];
+  </script>
+
+</body>
+</html>
