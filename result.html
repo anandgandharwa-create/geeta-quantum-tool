@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <title>गीता संकेत</title>
+<meta charset="UTF-8">
+<title>गीता संकेत</title>
+<style>
+body{text-align:center;font-family:sans-serif;padding:20px;}
+.box{
+  padding:20px;
+  border-radius:15px;
+  background:#f5f5f5;
+}
+</style>
 </head>
-<body style="text-align:center;">
 
-  <h2>आज आपके लिए गीता का संकेत</h2>
+<body>
 
-  <p id="result"></p>
+<h2>आज आपके लिए गीता का संकेत</h2>
 
-  <button onclick="location.href='index.html'">
-    फिर से अनुभव करें
-  </button>
+<div class="box">
+  <p id="resultText"></p>
+</div>
 
-  <script>
-    const state = localStorage.getItem("state");
+<br>
+<button onclick="location.href='index.html'">
+फिर से अनुभव करें
+</button>
 
-    const advice = {
-      "भय": "डर से नहीं, बोध से कर्म करें।",
-      "संशय": "निर्णय से पहले स्थिरता आवश्यक है।",
-      "क्रोध": "ऊर्जा को दिशा दें, विस्फोट नहीं।",
-      "आसक्ति": "कर्म करें, पकड़ नहीं।",
-      "शांति": "आप सही मार्ग पर हैं।",
-      "विश्वास": "भीतर की आवाज़ सुनें।",
-      "कर्म": "कर्म ही योग है।",
-      "मौन": "यहीं से साक्षी भाव जन्म लेता है।"
-    };
+<script>
+const state = localStorage.getItem("state");
 
-    document.getElementById("result").innerText =
-      advice[state];
-  </script>
+const advice={
+ "भय":"डर को देखकर भागिए नहीं, उसे समझिए।",
+ "संशय":"स्थिर मन ही सही निर्णय लेता है।",
+ "क्रोध":"ऊर्जा को दिशा दें, विनाश नहीं।",
+ "आसक्ति":"कर्म करें, पकड़ नहीं।",
+ "शांति":"आप साक्षी भाव के निकट हैं।",
+ "विश्वास":"भीतर की आवाज़ पर्याप्त है।",
+ "कर्म":"कर्म ही आपका धर्म है।",
+ "मौन":"यहीं से आत्मबोध जन्म लेता है।"
+};
+
+document.getElementById("resultText").innerText =
+ advice[state];
+</script>
 
 </body>
 </html>
