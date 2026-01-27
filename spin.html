@@ -2,54 +2,71 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>चेतना चक्र</title>
+
 <style>
 body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, sans-serif;
+  background:linear-gradient(#0f2027,#203a43,#2c5364);
+  color:#fff;
   text-align:center;
-  font-family:sans-serif;
 }
+
+h2{
+  font-weight:500;
+  margin-bottom:20px;
+}
+
 #wheel{
-  width:250px;
-  height:250px;
+  width:220px;
+  height:220px;
   border-radius:50%;
-  margin:30px auto;
   background:conic-gradient(
     red, orange, yellow, green,
     cyan, blue, violet, red
   );
+  box-shadow:0 0 25px rgba(255,255,255,0.4);
   transition:transform 3s ease-out;
+}
+
+button{
+  margin-top:30px;
+  padding:14px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ffd369;
+  color:#000;
 }
 </style>
 </head>
 
 <body>
 
-<h2>जो आपके भीतर है, वही प्रकट होगा</h2>
+<h2>जो आपके भीतर है,<br>वही प्रकट होगा</h2>
 
 <div id="wheel"></div>
 
 <button onclick="spinWheel()">चक्र घुमाएँ</button>
 
 <script>
-const states = [
- "भय","संशय","क्रोध","आसक्ति",
- "शांति","विश्वास","कर्म","मौन"
-];
+const states=["भय","संशय","क्रोध","आसक्ति","शांति","विश्वास","कर्म","मौन"];
 
 function spinWheel(){
-  let deg = Math.floor(2000 + Math.random()*2000);
-  document.getElementById("wheel").style.transform =
-    "rotate(" + deg + "deg)";
-
-  let state = states[Math.floor(Math.random()*states.length)];
-  localStorage.setItem("state", state);
-
-  setTimeout(()=>{
-    location.href="meter.html";
-  },3000);
+ let deg = 2000 + Math.random()*2000;
+ wheel.style.transform="rotate("+deg+"deg)";
+ let state = states[Math.floor(Math.random()*states.length)];
+ localStorage.setItem("state",state);
+ setTimeout(()=>location.href="meter.html",3000);
 }
 </script>
 
 </body>
 </html>
-
