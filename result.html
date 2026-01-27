@@ -2,46 +2,66 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>गीता संकेत</title>
+
 <style>
-body{text-align:center;font-family:sans-serif;padding:20px;}
-.box{
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, sans-serif;
+  background:radial-gradient(circle,#1f4037,#99f2c8);
+  text-align:center;
   padding:20px;
-  border-radius:15px;
-  background:#f5f5f5;
+}
+
+.card{
+  background:#fff;
+  border-radius:20px;
+  padding:25px;
+  max-width:320px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+h2{margin-top:0;}
+
+button{
+  margin-top:20px;
+  padding:12px 26px;
+  border:none;
+  border-radius:25px;
+  background:#1f4037;
+  color:#fff;
+  font-size:16px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>आज आपके लिए गीता का संकेत</h2>
-
-<div class="box">
+<div class="card">
+  <h2>आज का गीता संकेत</h2>
   <p id="resultText"></p>
+  <button onclick="location.href='index.html'">
+    फिर से अनुभव करें
+  </button>
 </div>
 
-<br>
-<button onclick="location.href='index.html'">
-फिर से अनुभव करें
-</button>
-
 <script>
-const state = localStorage.getItem("state");
-
 const advice={
- "भय":"डर को देखकर भागिए नहीं, उसे समझिए।",
- "संशय":"स्थिर मन ही सही निर्णय लेता है।",
- "क्रोध":"ऊर्जा को दिशा दें, विनाश नहीं।",
- "आसक्ति":"कर्म करें, पकड़ नहीं।",
- "शांति":"आप साक्षी भाव के निकट हैं।",
- "विश्वास":"भीतर की आवाज़ पर्याप्त है।",
- "कर्म":"कर्म ही आपका धर्म है।",
- "मौन":"यहीं से आत्मबोध जन्म लेता है।"
+ "भय":"डर को समझना ही मुक्ति की शुरुआत है।",
+ "संशय":"स्थिरता से ही स्पष्टता आती है।",
+ "क्रोध":"ऊर्जा को साधें, वही शक्ति बनेगी।",
+ "आसक्ति":"कर्म करें, बंधन नहीं।",
+ "शांति":"आप साक्षी भाव में प्रवेश कर रहे हैं।",
+ "विश्वास":"आप स्वयं ही पथ हैं।",
+ "कर्म":"कर्म ही योग है।",
+ "मौन":"मौन में ही सत्य प्रकट होता है।"
 };
-
-document.getElementById("resultText").innerText =
- advice[state];
+resultText.innerText = advice[localStorage.getItem("state")];
 </script>
 
 </body>
