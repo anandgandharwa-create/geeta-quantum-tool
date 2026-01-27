@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <title>चेतना मीटर</title>
+<meta charset="UTF-8">
+<title>चेतना मीटर</title>
+<style>
+body{text-align:center;font-family:sans-serif;}
+#meter{
+  width:80%;
+  height:20px;
+  background:#ddd;
+  margin:30px auto;
+  border-radius:10px;
+}
+#fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(to right, red, yellow, green);
+  border-radius:10px;
+  transition:width 3s;
+}
+</style>
 </head>
-<body style="text-align:center;">
 
-  <h2>आपकी वर्तमान चेतना-स्थिति</h2>
+<body>
 
-  <p id="stateText"></p>
+<h2>आपकी वर्तमान चेतना-स्थिति</h2>
 
-  <button onclick="next()">
-    मार्ग देखें
-  </button>
+<p id="stateText"></p>
 
-  <script>
-    const state = localStorage.getItem("state");
-    document.getElementById("stateText").innerText =
-      "आपकी स्थिति: " + state;
+<div id="meter">
+  <div id="fill"></div>
+</div>
 
-    function next(){
-      location.href = "result.html";
-    }
-  </script>
+<button onclick="next()">मार्ग देखें</button>
+
+<script>
+const state = localStorage.getItem("state");
+document.getElementById("stateText").innerText =
+ "स्थिति: " + state;
+
+let value = Math.floor(30 + Math.random()*60);
+setTimeout(()=>{
+ document.getElementById("fill").style.width = value+"%";
+},500);
+
+function next(){
+ location.href="result.html";
+}
+</script>
 
 </body>
 </html>
