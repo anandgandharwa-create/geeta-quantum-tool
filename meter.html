@@ -12,132 +12,80 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#05070d;
-  font-family:system-ui,sans-serif;
-  color:#fff;
+  background:#0b0b0f;
 }
 
-.card{
-  text-align:center;
-}
-
-/* ---------- GAUGE ---------- */
-.gauge-wrap{
+/* ===== METER ===== */
+.meter-wrap{
   position:relative;
-  width:320px;
-  height:160px;
-  margin:30px auto;
+  width:300px;
+  height:150px;
   overflow:hidden;
 }
 
-.gauge{
-  width:320px;
-  height:320px;
+.meter-arc{
+  width:300px;
+  height:300px;
   border-radius:50%;
-  background:conic-gradient(
-    #ff3b3b 0deg,
-    #ff3b3b 60deg,
-    #ffd54f 60deg,
-    #ffd54f 120deg,
-    #00e676 120deg,
-    #00e676 180deg,
-    transparent 180deg
-  );
-  transform:rotate(-180deg);
+  border:22px solid transparent;
+  border-bottom:none;
+  border-left-color:#ff2e2e;   /* भ्रम */
+  border-top-color:#ffd369;    /* द्वंद्व / बोध */
+  border-right-color:#00c853;  /* साक्षी */
+  box-sizing:border-box;
 }
 
-/* ---------- NEEDLE ---------- */
 .needle{
   position:absolute;
+  width:4px;
+  height:120px;
+  background:#ffffff;
   bottom:0;
   left:50%;
-  width:4px;
-  height:140px;
-  background:#ffffff;
-  transform-origin:bottom center;
-  transform:translateX(-50%) rotate(-90deg);
-  transition:transform 2.5s cubic-bezier(.2,.8,.3,1);
-  box-shadow:0 0 14px rgba(255,255,255,.9);
+  transform-origin:bottom;
+  transform:rotate(-90deg);
+  border-radius:2px;
+  transition:transform 1.6s cubic-bezier(.25,.8,.25,1);
 }
 
-.needle::after{
-  content:"";
+.needle-dot{
   position:absolute;
-  bottom:-8px;
-  left:-8px;
-  width:18px;
-  height:18px;
-  background:#fff;
+  width:14px;
+  height:14px;
+  background:#ffffff;
   border-radius:50%;
-}
-
-/* ---------- TEXT ---------- */
-h2{
-  font-weight:500;
-  margin-bottom:6px;
-}
-
-.state{
-  color:#b8c7ff;
-}
-
-button{
-  margin-top:20px;
-  padding:14px 34px;
-  border:none;
-  border-radius:30px;
-  font-size:16px;
-  background:linear-gradient(90deg,#00c6ff,#0072ff,#8e2de2);
-  color:#fff;
+  bottom:-7px;
+  left:calc(50% - 7px);
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-
-  <h2>आपकी वर्तमान<br>चेतना-स्थिति</h2>
-  <div class="state" id="stateText"></div>
-
-  <div class="gauge-wrap">
-    <div class="gauge"></div>
-    <div class="needle" id="needle"></div>
-  </div>
-
-  <button onclick="location.href='result.html'">
-    मार्ग देखें
-  </button>
-
+<div class="meter-wrap">
+  <div class="meter-arc"></div>
+  <div class="needle" id="needle"></div>
+  <div class="needle-dot"></div>
 </div>
 
 <script>
 /*
-meterScore 0–100
+यह स्कोर सवालों से आता है
 */
-const score = Number(localStorage.getItem("meterScore")) || 0;
+const score = Number(localStorage.getItem("meterScore")) || 50;
 
 /*
-Credit-score mapping:
-0   → far left (-90°)
-50  → centre (0°)
-100 → far right (+90°)
+Credit-score style mapping:
+0   → -90° (बायाँ / लाल)
+50  → 0°   (बीच)
+100 → +90° (दायाँ / हरा)
 */
 const angle = (score / 100) * 180 - 90;
 
 setTimeout(()=>{
-  document.getElementById("needle").style.transform =
-    `translateX(-50%) rotate(${angle}deg)`;
-},600);
-
-/* State text */
-let state="";
-if(score <= 30) state="स्थिति : भ्रम";
-else if(score <= 60) state="स्थिति : द्वंद्व";
-else if(score <= 85) state="स्थिति : बोध";
-else state="स्थिति : साक्षी";
-
-document.getElementById("stateText").innerText = state;
+  document.getElementById("needle")
+    .style.transform = "rotate(" + angle + "deg)";
+},400);
 </script>
 
 </body>
