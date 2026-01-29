@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>आपका परिणाम</title>
+<title>परिणाम</title>
 
 <style>
 body{
@@ -14,151 +14,33 @@ body{
   align-items:center;
   background:#0b0b0f;
   font-family:system-ui,sans-serif;
-  color:#ffffff;
+  color:#fff;
 }
-
 .card{
   width:90%;
   max-width:360px;
-  background:rgba(255,255,255,0.04);
-  border-radius:22px;
-  padding:26px 22px;
+  background:#14141c;
+  padding:24px;
+  border-radius:20px;
   text-align:center;
-  box-shadow:0 0 40px rgba(0,0,0,.6);
-}
-
-h2{
-  margin:0 0 6px;
-  font-weight:600;
-}
-
-.state{
-  margin-top:6px;
-  font-size:18px;
-}
-
-.desc{
-  margin-top:10px;
-  font-size:14px;
-  color:#cccccc;
-  line-height:1.6;
-}
-
-/* ===== PATH ===== */
-.path{
-  margin:26px 0 18px;
-  text-align:left;
-}
-
-.step{
-  display:flex;
-  align-items:center;
-  margin-bottom:12px;
-  font-size:14px;
-}
-
-.dot{
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  margin-right:10px;
-  flex-shrink:0;
-}
-
-.line{
-  width:2px;
-  height:22px;
-  background:#444;
-  margin-left:6px;
-}
-
-/* ===== BUTTON ===== */
-button{
-  margin-top:22px;
-  padding:14px 30px;
-  border:none;
-  border-radius:30px;
-  font-size:16px;
-  color:#000;
-  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-
-  <h2>आपकी चेतना-स्थिति</h2>
-
-  <div class="state" id="stateText"></div>
-
-  <div class="desc" id="descText"></div>
-
-  <!-- 🔁 VISUAL PATH -->
-  <div class="path">
-
-    <div class="step">
-      <div class="dot" id="dotNow"></div>
-      <div id="nowText"></div>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="step">
-      <div class="dot" style="background:#555;"></div>
-      <div id="nextText"></div>
-    </div>
-
-  </div>
-
-  <button id="actionBtn" onclick="restart()">
-    पुनः अनुभव करें
-  </button>
-
-</div>
+<div class="card" id="box"></div>
 
 <script>
-/* ===== DATA FROM METER ===== */
-const level = Number(localStorage.getItem("resultLevel")) || 2;
-const color = localStorage.getItem("resultColor") || "#ffd369";
+let level = Number(localStorage.getItem("level")) || 2;
 
-/* ===== RESULT CONTENT ===== */
-const resultMap = {
-  1:{
-    title:"न्यून अवस्था",
-    desc:"आपकी चेतना अभी बाहरी परिस्थितियों से संचालित हो रही है। स्थिरता और आत्मनिरीक्षण की आवश्यकता है।",
-    now:"आप यहाँ हैं : प्रतिक्रिया की अवस्था",
-    next:"यहाँ जाना है : समझ की ओर"
-  },
-  2:{
-    title:"मध्यम अवस्था",
-    desc:"आप समझ और प्रतिक्रिया के बीच हैं। विवेक जागृत हो रहा है, अभ्यास से स्पष्टता बढ़ेगी।",
-    now:"आप यहाँ हैं : द्वंद्व की अवस्था",
-    next:"यहाँ जाना है : बोध की ओर"
-  },
-  3:{
-    title:"उच्च अवस्था",
-    desc:"आप कर्म करते हुए साक्षी भाव की ओर बढ़ रहे हैं। यही चेतन जीवन की दिशा है।",
-    now:"आप यहाँ हैं : बोध की अवस्था",
-    next:"यहाँ जाना है : साक्षी भाव की ओर"
-  }
+const data = {
+  1:"🔴 आपकी चेतना अभी प्रतिक्रियात्मक है। ठहराव आवश्यक है।",
+  2:"🟡 आप समझ और प्रतिक्रिया के बीच हैं। अभ्यास करें।",
+  3:"🟢 आप साक्षी भाव की ओर बढ़ रहे हैं।"
 };
 
-/* ===== APPLY CONTENT ===== */
-document.getElementById("stateText").innerText = resultMap[level].title;
-document.getElementById("descText").innerText  = resultMap[level].desc;
-document.getElementById("nowText").innerText   = resultMap[level].now;
-document.getElementById("nextText").innerText  = resultMap[level].next;
-
-/* ===== APPLY COLOR THEME ===== */
-document.getElementById("dotNow").style.background = color;
-document.getElementById("actionBtn").style.background = color;
-
-/* ===== RESTART ===== */
-function restart(){
-  window.location.href = "index.html";
-}
+document.getElementById("box").innerText = data[level];
 </script>
 
 </body>
