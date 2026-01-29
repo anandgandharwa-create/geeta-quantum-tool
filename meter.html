@@ -74,12 +74,23 @@ body{
 .label-low{ color:#ff6b6b; }
 .label-mid{ color:#ffd369; }
 .label-high{ color:#00e676; }
+
+/* ===== BUTTON ===== */
+button{
+  margin-top:28px;
+  padding:14px 34px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(90deg,#00c6ff,#0072ff,#8e2de2);
+  color:#fff;
+  font-size:16px;
+}
 </style>
 </head>
 
 <body>
 
-<div>
+<div style="text-align:center;">
 
   <div class="meter-wrap">
     <div class="meter-arc"></div>
@@ -87,12 +98,15 @@ body{
     <div class="needle-dot"></div>
   </div>
 
-  <!-- 👇 नीचे के Labels -->
+  <!-- Labels -->
   <div class="labels">
     <div class="label-low">न्यून</div>
     <div class="label-mid">मध्यम</div>
     <div class="label-high">उच्च</div>
   </div>
+
+  <!-- 👇 RESULT BUTTON -->
+  <button onclick="goToResult()">परिणाम देखें</button>
 
 </div>
 
@@ -113,6 +127,22 @@ setTimeout(()=>{
   document.getElementById("needle")
     .style.transform = "rotate(" + angle + "deg)";
 },400);
+
+/* ===== RESULT NAVIGATION ===== */
+function goToResult(){
+  /*
+  यहाँ चाहें तो level भी तय कर सकते हैं
+  */
+  let level = 1;
+  if(score <= 30) level = 1;
+  else if(score <= 60) level = 2;
+  else if(score <= 85) level = 3;
+  else level = 4;
+
+  localStorage.setItem("resultLevel", level);
+
+  window.location.href = "result.html";
+}
 </script>
 
 </body>
