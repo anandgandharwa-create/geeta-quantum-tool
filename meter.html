@@ -29,9 +29,9 @@ body{
   border-radius:50%;
   border:20px solid transparent;
   border-bottom:none;
-  border-left-color:#ff3b3b;
-  border-top-color:#ffd369;
-  border-right-color:#00c853;
+  border-left-color:#ff3b3b;   /* 🔴 */
+  border-top-color:#ffd369;    /* 🟡 */
+  border-right-color:#00c853;  /* 🟢 */
 }
 .needle{
   position:absolute;
@@ -54,12 +54,6 @@ body{
   border-radius:50%;
   transform:translateX(-50%);
 }
-button{
-  margin-top:20px;
-  padding:14px 30px;
-  border:none;
-  border-radius:30px;
-}
 </style>
 </head>
 
@@ -71,21 +65,32 @@ button{
     <div class="needle" id="n"></div>
     <div class="dot"></div>
   </div>
-  <button onclick="next()">परिणाम देखें</button>
 </div>
 
 <script>
-let score = Number(localStorage.getItem("score")) || 0;
-let angle = (score/100)*180 - 90;
-document.getElementById("n").style.transform =
-  "translateX(-50%) rotate("+angle+"deg)";
+let total = Number(localStorage.getItem("totalScore")) || 0;
 
-let level = score<=25 ? 1 : score<=65 ? 2 : 3;
-localStorage.setItem("level", level);
+/*
+TOTAL RANGE:
+0 – 30   → 🔴
+31 – 70  → 🟡
+71 – 115 → 🟢
+*/
 
-function next(){
-  location.href="result.html";
+let angle = -90; // red default
+
+if(total <= 30){
+  angle = -90;
 }
+else if(total <= 70){
+  angle = 0;
+}
+else{
+  angle = 90;
+}
+
+document.getElementById("n").style.transform =
+  "translateX(-50%) rotate(" + angle + "deg)";
 </script>
 
 </body>
