@@ -47,35 +47,25 @@ button{
 <div class="card">
 <h3>आत्म-स्थिति मूल्यांकन</h3>
 
-<!-- Q1 -->
-<label class="option"><input type="radio" name="q1" value="0"> निर्णय टाल देता/देती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="10"> दूसरों से सलाह लेता/लेती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="20"> मन की आवाज़ सुनता/सुनती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="0"> परिस्थिति को दोष देता/देती हूँ</label>
+<p>1. निर्णय कठिन हो तो?</p>
+<label class="option"><input type="radio" name="q1" value="0"> टाल देता हूँ</label>
+<label class="option"><input type="radio" name="q1" value="20"> मन की सुनता हूँ</label>
 
-<!-- Q2 -->
-<label class="option"><input type="radio" name="q2" value="0"> क्रोध आ जाता है</label>
-<label class="option"><input type="radio" name="q2" value="0"> निराशा होती है</label>
-<label class="option"><input type="radio" name="q2" value="20"> आत्म-विश्लेषण जरूरी लगता है</label>
-<label class="option"><input type="radio" name="q2" value="0"> भाग्य को दोष देता/देती हूँ</label>
+<p>2. परिणाम विपरीत हो तो?</p>
+<label class="option"><input type="radio" name="q2" value="0"> क्रोध</label>
+<label class="option"><input type="radio" name="q2" value="20"> आत्म-विश्लेषण</label>
 
-<!-- Q3 -->
-<label class="option"><input type="radio" name="q3" value="10"> केवल काम</label>
+<p>3. कर्म का अर्थ?</p>
 <label class="option"><input type="radio" name="q3" value="0"> परिणाम</label>
-<label class="option"><input type="radio" name="q3" value="20"> कर्तव्य</label>
-<label class="option"><input type="radio" name="q3" value="25"> आत्म-विकास</label>
+<label class="option"><input type="radio" name="q3" value="25"> कर्तव्य</label>
 
-<!-- Q4 -->
-<label class="option"><input type="radio" name="q4" value="0"> तुरंत प्रतिक्रिया देते हैं</label>
-<label class="option"><input type="radio" name="q4" value="10"> दबा लेते हैं</label>
-<label class="option"><input type="radio" name="q4" value="25"> शांत रहते हैं</label>
-<label class="option"><input type="radio" name="q4" value="0"> बदले की भावना होती है</label>
+<p>4. अपमान पर?</p>
+<label class="option"><input type="radio" name="q4" value="0"> प्रतिक्रिया</label>
+<label class="option"><input type="radio" name="q4" value="25"> शांत</label>
 
-<!-- Q5 -->
+<p>5. जीवन दृष्टि?</p>
 <label class="option"><input type="radio" name="q5" value="0"> संघर्ष</label>
-<label class="option"><input type="radio" name="q5" value="20"> अवसर</label>
 <label class="option"><input type="radio" name="q5" value="25"> कर्मभूमि</label>
-<label class="option"><input type="radio" name="q5" value="0"> बोझ</label>
 
 <button onclick="go()">मीटर देखें</button>
 </div>
@@ -84,14 +74,13 @@ button{
 function go(){
   let total = 0;
   for(let i=1;i<=5;i++){
-    let r = document.querySelector(`input[name=q${i}]:checked`);
+    const r = document.querySelector(`input[name=q${i}]:checked`);
     if(!r){ alert("सभी उत्तर दें"); return; }
     total += Number(r.value);
   }
 
-  // MAX = 115
-  let score = Math.round((total / 115) * 100);
-  localStorage.setItem("score", score);
+  // सीधे total save
+  localStorage.setItem("totalScore", total);
   location.href = "meter.html";
 }
 </script>
