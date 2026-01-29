@@ -16,43 +16,15 @@ body{
   font-family:system-ui,sans-serif;
   color:#fff;
 }
-.wrap{text-align:center;}
-.meter{
-  position:relative;
-  width:300px;
-  height:150px;
-  overflow:hidden;
+.wrap{
+  text-align:center;
 }
-.arc{
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  border:20px solid transparent;
-  border-bottom:none;
-  border-left-color:#ff3b3b;   /* 🔴 */
-  border-top-color:#ffd369;    /* 🟡 */
-  border-right-color:#00c853;  /* 🟢 */
-}
-.needle{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  width:4px;
-  height:120px;
-  background:#fff;
-  transform-origin:bottom;
-  transform:translateX(-50%) rotate(-90deg);
-  transition:1.4s;
-}
-.dot{
-  position:absolute;
-  bottom:-7px;
-  left:50%;
-  width:14px;
-  height:14px;
-  background:#fff;
-  border-radius:50%;
-  transform:translateX(-50%);
+button{
+  margin-top:20px;
+  padding:12px 28px;
+  border:none;
+  border-radius:24px;
+  font-size:16px;
 }
 </style>
 </head>
@@ -60,37 +32,82 @@ body{
 <body>
 
 <div class="wrap">
-  <div class="meter">
-    <div class="arc"></div>
-    <div class="needle" id="n"></div>
-    <div class="dot"></div>
-  </div>
+
+<svg width="300" height="160" viewBox="0 0 300 160">
+
+  <!-- 🔴 RED -->
+  <path d="M30 140 A120 120 0 0 1 150 20"
+        stroke="#ff3b3b" stroke-width="20" fill="none"/>
+
+  <!-- 🟡 YELLOW -->
+  <path d="M150 20 A120 120 0 0 1 270 140"
+        stroke="#ffd369" stroke-width="20" fill="none"/>
+
+  <!-- 🟢 GREEN (overlay part) -->
+  <path d="M210 60 A120 120 0 0 1 270 140"
+        stroke="#00c853" stroke-width="20" fill="none"/>
+
+  <!-- NEEDLE -->
+  <line id="needle"
+        x1="150" y1="140"
+        x2="150" y2="40"
+        stroke="#ffffff"
+        stroke-width="4"
+        transform-origin="150px 140px"
+        transform="rotate(-90 150 140)"
+        style="transition:transform 1.4s ease"/>
+
+  <!-- CENTER DOT -->
+  <circle cx="150" cy="140" r="6" fill="#fff"/>
+
+</svg>
+
+<button id="btn">परिणाम देखें</button>
+
 </div>
 
 <script>
-let total = Number(localStorage.getItem("totalScore")) || 0;
+/*
+score expected: 0–100
+अगर कुछ न मिले तो 0 (red)
+*/
+let score = Number(localStorage.getItem("score"));
+if(isNaN(score)) score = 0;
 
 /*
-TOTAL RANGE:
-0 – 30   → 🔴
-31 – 70  → 🟡
-71 – 115 → 🟢
+Angle mapping:
+0   → -90 (left / red)
+50  → 0   (center / yellow)
+100 → 90  (right / green)
 */
+let angle = (score / 100) * 180 - 90;
 
-let angle = -90; // red default
+document.getElementById("needle")
+  .setAttribute(
+    "transform",
+    "rotate(" + angle + " 150 140)"
+  );
 
-if(total <= 30){
-  angle = -90;
+/* Button color by zone */
+let btn = document.getElementById("btn");
+let level = 1;
+
+if(score <= 30){
+  btn.style.background = "#ff3b3b";
+  level = 1;
 }
-else if(total <= 70){
-  angle = 0;
+else if(score <= 70){
+  btn.style.background = "#ffd369";
+  level = 2;
 }
 else{
-  angle = 90;
+  btn.style.background = "#00c853";
+  level = 3;
 }
 
-document.getElementById("n").style.transform =
-  "translateX(-50%) rotate(" + angle + "deg)";
+localStorage.setItem("level", level);
+
+btn.onclick = () => location.href = "result.html";
 </script>
 
 </body>
