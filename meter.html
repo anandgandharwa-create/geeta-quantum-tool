@@ -14,167 +14,77 @@ body{
   align-items:center;
   background:#0b0b0f;
   font-family:system-ui,sans-serif;
-  color:#ffffff;
+  color:#fff;
 }
-
-/* ===== CONTAINER ===== */
-.wrapper{
-  text-align:center;
-}
-
-/* ===== METER ===== */
-.meter-wrap{
+.wrap{text-align:center;}
+.meter{
   position:relative;
   width:300px;
   height:150px;
   overflow:hidden;
-  margin:auto;
 }
-
-.meter-arc{
+.arc{
   width:300px;
   height:300px;
   border-radius:50%;
-  border:22px solid transparent;
+  border:20px solid transparent;
   border-bottom:none;
-  border-left-color:#ff2e2e;   /* 🔴 न्यून */
-  border-top-color:#ffd369;    /* 🟡 मध्यम */
-  border-right-color:#00c853;  /* 🟢 उच्च */
-  box-sizing:border-box;
+  border-left-color:#ff3b3b;
+  border-top-color:#ffd369;
+  border-right-color:#00c853;
 }
-
-/* ===== NEEDLE ===== */
 .needle{
   position:absolute;
   bottom:0;
   left:50%;
   width:4px;
   height:120px;
-  background:#ffffff;
-  transform-origin:bottom center;
+  background:#fff;
+  transform-origin:bottom;
   transform:translateX(-50%) rotate(-90deg);
-  border-radius:2px;
-  transition:transform 1.5s ease-in-out;
+  transition:1.4s;
 }
-
-.needle-dot{
+.dot{
   position:absolute;
   bottom:-7px;
   left:50%;
   width:14px;
   height:14px;
-  background:#ffffff;
+  background:#fff;
   border-radius:50%;
   transform:translateX(-50%);
 }
-
-/* ===== LABELS ===== */
-.labels{
-  width:300px;
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  font-size:13px;
-}
-
-.label{
-  opacity:.4;
-}
-
-.label.active{
-  opacity:1;
-  font-weight:600;
-  text-shadow:0 0 10px currentColor;
-}
-
-.label-low{color:#ff2e2e;}
-.label-mid{color:#ffd369;}
-.label-high{color:#00c853;}
-
-/* ===== BUTTON ===== */
 button{
-  margin-top:26px;
-  padding:14px 34px;
+  margin-top:20px;
+  padding:14px 30px;
   border:none;
   border-radius:30px;
-  font-size:16px;
-  cursor:pointer;
-  color:#000;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
-
-  <div class="meter-wrap">
-    <div class="meter-arc"></div>
-    <div class="needle" id="needle"></div>
-    <div class="needle-dot"></div>
+<div class="wrap">
+  <div class="meter">
+    <div class="arc"></div>
+    <div class="needle" id="n"></div>
+    <div class="dot"></div>
   </div>
-
-  <div class="labels">
-    <div id="low" class="label label-low">न्यून</div>
-    <div id="mid" class="label label-mid">मध्यम</div>
-    <div id="high" class="label label-high">उच्च</div>
-  </div>
-
-  <button id="resultBtn" onclick="goToResult()">परिणाम देखें</button>
-
+  <button onclick="next()">परिणाम देखें</button>
 </div>
 
 <script>
-/* ===============================
-   स्कोर (0–100)
-   =============================== */
-let score = Number(localStorage.getItem("meterScore"));
-if(isNaN(score)) score = 0;
-score = Math.max(0, Math.min(100, score));
+let score = Number(localStorage.getItem("score")) || 0;
+let angle = (score/100)*180 - 90;
+document.getElementById("n").style.transform =
+  "translateX(-50%) rotate("+angle+"deg)";
 
-/* ===============================
-   सुई घुमाव
-   =============================== */
-const angle = (score / 100) * 180 - 90;
+let level = score<=25 ? 1 : score<=65 ? 2 : 3;
+localStorage.setItem("level", level);
 
-setTimeout(()=>{
-  document.getElementById("needle")
-    .style.transform = "translateX(-50%) rotate(" + angle + "deg)";
-},300);
-
-/* ===============================
-   ज़ोन पहचान
-   =============================== */
-let level = 1;
-let color = "#ff2e2e";
-
-if(score <= 25){
-  level = 1;
-  document.getElementById("low").classList.add("active");
-  color = "#ff2e2e";
-}
-else if(score <= 65){
-  level = 2;
-  document.getElementById("mid").classList.add("active");
-  color = "#ffd369";
-}
-else{
-  level = 3;
-  document.getElementById("high").classList.add("active");
-  color = "#00c853";
-}
-
-/* Button color */
-const btn = document.getElementById("resultBtn");
-btn.style.background = color;
-
-/* Result ke liye store */
-localStorage.setItem("resultLevel", level);
-localStorage.setItem("resultColor", color);
-
-/* Navigation */
-function goToResult(){
-  window.location.href = "result.html";
+function next(){
+  location.href="result.html";
 }
 </script>
 
