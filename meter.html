@@ -31,9 +31,9 @@ body{
   border-radius:50%;
   border:22px solid transparent;
   border-bottom:none;
-  border-left-color:#ff2e2e;   /* न्यून */
-  border-top-color:#ffd369;    /* मध्यम */
-  border-right-color:#00c853;  /* उच्च */
+  border-left-color:#ff2e2e;   /* 🔴 न्यून */
+  border-top-color:#ffd369;    /* 🟡 मध्यम */
+  border-right-color:#00c853;  /* 🟢 उच्च */
   box-sizing:border-box;
 }
 
@@ -68,22 +68,32 @@ body{
   justify-content:space-between;
   margin-top:10px;
   font-size:13px;
-  color:#aaa;
 }
 
-.label-low{ color:#ff6b6b; }
+.label{
+  opacity:.4;
+  transition:all .4s ease;
+}
+
+.label.active{
+  opacity:1;
+  font-weight:600;
+  text-shadow:0 0 10px currentColor;
+}
+
+.label-low{ color:#ff2e2e; }
 .label-mid{ color:#ffd369; }
-.label-high{ color:#00e676; }
+.label-high{ color:#00c853; }
 
 /* ===== BUTTON ===== */
 button{
-  margin-top:28px;
+  margin-top:26px;
   padding:14px 34px;
   border:none;
   border-radius:30px;
-  background:linear-gradient(90deg,#00c6ff,#0072ff,#8e2de2);
-  color:#fff;
   font-size:16px;
+  color:#000;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -100,13 +110,15 @@ button{
 
   <!-- Labels -->
   <div class="labels">
-    <div class="label-low">न्यून</div>
-    <div class="label-mid">मध्यम</div>
-    <div class="label-high">उच्च</div>
+    <div id="labelLow" class="label label-low">न्यून</div>
+    <div id="labelMid" class="label label-mid">मध्यम</div>
+    <div id="labelHigh" class="label label-high">उच्च</div>
   </div>
 
-  <!-- 👇 RESULT BUTTON -->
-  <button onclick="goToResult()">परिणाम देखें</button>
+  <!-- Result Button -->
+  <button id="resultBtn" onclick="goToResult()">
+    परिणाम देखें
+  </button>
 
 </div>
 
@@ -117,48 +129,52 @@ button{
 const score = Number(localStorage.getItem("meterScore")) || 0;
 
 /* =================================================
-   मीटर सुई का घुमाव (Credit-score style)
-   0   → -90° (न्यून / लाल)
-   50  →  0°  (मध्यम / पीला)
-   100 → +90° (उच्च / हरा)
+   सुई का घुमाव
    ================================================= */
 const angle = (score / 100) * 180 - 90;
 
-setTimeout(() => {
-  const needle = document.getElementById("needle");
-  if(needle){
-    needle.style.transform = "rotate(" + angle + "deg)";
-  }
-}, 400);
+setTimeout(()=>{
+  document.getElementById("needle")
+    .style.transform = "rotate(" + angle + "deg)";
+},400);
 
 /* =================================================
-   RESULT NAVIGATION (मीटर के रंग के अनुसार)
-   लाल   : 0–25  → level 1 (न्यून)
-   पीला  : 26–65 → level 2 (मध्यम)
-   हरा   : 66–100→ level 3 (उच्च)
+   ZONE DETECTION + LABEL GLOW + BUTTON COLOR
+   ================================================= */
+let level = 1;
+let color = "#ff2e2e"; // default लाल
+
+if(score <= 25){
+  level = 1; // 🔴 न्यून
+  document.getElementById("labelLow").classList.add("active");
+  color = "#ff2e2e";
+}
+else if(score <= 65){
+  level = 2; // 🟡 मध्यम
+  document.getElementById("labelMid").classList.add("active");
+  color = "#ffd369";
+}
+else{
+  level = 3; // 🟢 उच्च
+  document.getElementById("labelHigh").classList.add("active");
+  color = "#00c853";
+}
+
+/* Button color apply */
+const btn = document.getElementById("resultBtn");
+btn.style.background = color;
+
+/* Result page ke liye data store */
+localStorage.setItem("resultLevel", level);
+localStorage.setItem("resultColor", color);
+
+/* =================================================
+   RESULT PAGE NAVIGATION
    ================================================= */
 function goToResult(){
-
-  let level = 1;
-
-  if(score <= 25){
-    level = 1; // 🔴 न्यून
-  }
-  else if(score <= 65){
-    level = 2; // 🟡 मध्यम
-  }
-  else{
-    level = 3; // 🟢 उच्च
-  }
-
-  // Result page के लिए level सुरक्षित करें
-  localStorage.setItem("resultLevel", level);
-
-  // Result page पर जाएँ
   window.location.href = "result.html";
 }
 </script>
-
 
 </body>
 </html>
