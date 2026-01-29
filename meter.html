@@ -14,7 +14,12 @@ body{
   align-items:center;
   background:#0b0b0f;
   font-family:system-ui,sans-serif;
-  color:#fff;
+  color:#ffffff;
+}
+
+/* ===== CONTAINER ===== */
+.wrapper{
+  text-align:center;
 }
 
 /* ===== METER ===== */
@@ -23,6 +28,7 @@ body{
   width:300px;
   height:150px;
   overflow:hidden;
+  margin:auto;
 }
 
 .meter-arc{
@@ -40,25 +46,26 @@ body{
 /* ===== NEEDLE ===== */
 .needle{
   position:absolute;
+  bottom:0;
+  left:50%;
   width:4px;
   height:120px;
   background:#ffffff;
-  bottom:0;
-  left:50%;
-  transform-origin:bottom;
-  transform:rotate(0deg); /* ❌ -90 हटाया */
+  transform-origin:bottom center;
+  transform:translateX(-50%) rotate(-90deg);
   border-radius:2px;
-  transition:transform 1.6s cubic-bezier(.25,.8,.25,1);
+  transition:transform 1.5s ease-in-out;
 }
 
 .needle-dot{
   position:absolute;
+  bottom:-7px;
+  left:50%;
   width:14px;
   height:14px;
   background:#ffffff;
   border-radius:50%;
-  bottom:-7px;
-  left:calc(50% - 7px);
+  transform:translateX(-50%);
 }
 
 /* ===== LABELS ===== */
@@ -72,7 +79,6 @@ body{
 
 .label{
   opacity:.4;
-  transition:all .4s ease;
 }
 
 .label.active{
@@ -81,9 +87,9 @@ body{
   text-shadow:0 0 10px currentColor;
 }
 
-.label-low{ color:#ff2e2e; }
-.label-mid{ color:#ffd369; }
-.label-high{ color:#00c853; }
+.label-low{color:#ff2e2e;}
+.label-mid{color:#ffd369;}
+.label-high{color:#00c853;}
 
 /* ===== BUTTON ===== */
 button{
@@ -92,15 +98,15 @@ button{
   border:none;
   border-radius:30px;
   font-size:16px;
-  color:#000;
   cursor:pointer;
+  color:#000;
 }
 </style>
 </head>
 
 <body>
 
-<div style="text-align:center;">
+<div class="wrapper">
 
   <div class="meter-wrap">
     <div class="meter-arc"></div>
@@ -108,61 +114,53 @@ button{
     <div class="needle-dot"></div>
   </div>
 
-  <!-- Labels -->
   <div class="labels">
-    <div id="labelLow" class="label label-low">न्यून</div>
-    <div id="labelMid" class="label label-mid">मध्यम</div>
-    <div id="labelHigh" class="label label-high">उच्च</div>
+    <div id="low" class="label label-low">न्यून</div>
+    <div id="mid" class="label label-mid">मध्यम</div>
+    <div id="high" class="label label-high">उच्च</div>
   </div>
 
-  <!-- Result Button -->
-  <button id="resultBtn" onclick="goToResult()">
-    परिणाम देखें
-  </button>
+  <button id="resultBtn" onclick="goToResult()">परिणाम देखें</button>
 
 </div>
 
 <script>
 /* ===============================
-   स्कोर (0–100) – safe clamp
+   स्कोर (0–100)
    =============================== */
 let score = Number(localStorage.getItem("meterScore"));
 if(isNaN(score)) score = 0;
 score = Math.max(0, Math.min(100, score));
 
 /* ===============================
-   सुई का घुमाव
-   -90°  → लाल (न्यून)
-   0°    → मध्यम
-   +90°  → उच्च
+   सुई घुमाव
    =============================== */
 const angle = (score / 100) * 180 - 90;
 
-/* Animate needle */
 setTimeout(()=>{
   document.getElementById("needle")
-    .style.transform = "rotate(" + angle + "deg)";
-},400);
+    .style.transform = "translateX(-50%) rotate(" + angle + "deg)";
+},300);
 
 /* ===============================
-   ZONE + LABEL + COLOR
+   ज़ोन पहचान
    =============================== */
 let level = 1;
 let color = "#ff2e2e";
 
 if(score <= 25){
-  level = 1; // 🔴 न्यून
-  document.getElementById("labelLow").classList.add("active");
+  level = 1;
+  document.getElementById("low").classList.add("active");
   color = "#ff2e2e";
 }
 else if(score <= 65){
-  level = 2; // 🟡 मध्यम
-  document.getElementById("labelMid").classList.add("active");
+  level = 2;
+  document.getElementById("mid").classList.add("active");
   color = "#ffd369";
 }
 else{
-  level = 3; // 🟢 उच्च
-  document.getElementById("labelHigh").classList.add("active");
+  level = 3;
+  document.getElementById("high").classList.add("active");
   color = "#00c853";
 }
 
@@ -170,7 +168,7 @@ else{
 const btn = document.getElementById("resultBtn");
 btn.style.background = color;
 
-/* Result ke liye save */
+/* Result ke liye store */
 localStorage.setItem("resultLevel", level);
 localStorage.setItem("resultColor", color);
 
@@ -179,7 +177,6 @@ function goToResult(){
   window.location.href = "result.html";
 }
 </script>
-
 
 </body>
 </html>
