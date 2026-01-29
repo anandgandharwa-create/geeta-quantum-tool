@@ -13,6 +13,8 @@ body{
   justify-content:center;
   align-items:center;
   background:#0b0b0f;
+  font-family:system-ui,sans-serif;
+  color:#fff;
 }
 
 /* ===== METER ===== */
@@ -29,12 +31,13 @@ body{
   border-radius:50%;
   border:22px solid transparent;
   border-bottom:none;
-  border-left-color:#ff2e2e;   /* भ्रम */
-  border-top-color:#ffd369;    /* द्वंद्व / बोध */
-  border-right-color:#00c853;  /* साक्षी */
+  border-left-color:#ff2e2e;   /* न्यून */
+  border-top-color:#ffd369;    /* मध्यम */
+  border-right-color:#00c853;  /* उच्च */
   box-sizing:border-box;
 }
 
+/* ===== NEEDLE ===== */
 .needle{
   position:absolute;
   width:4px;
@@ -57,28 +60,52 @@ body{
   bottom:-7px;
   left:calc(50% - 7px);
 }
+
+/* ===== LABELS ===== */
+.labels{
+  width:300px;
+  display:flex;
+  justify-content:space-between;
+  margin-top:10px;
+  font-size:13px;
+  color:#aaa;
+}
+
+.label-low{ color:#ff6b6b; }
+.label-mid{ color:#ffd369; }
+.label-high{ color:#00e676; }
 </style>
 </head>
 
 <body>
 
-<div class="meter-wrap">
-  <div class="meter-arc"></div>
-  <div class="needle" id="needle"></div>
-  <div class="needle-dot"></div>
+<div>
+
+  <div class="meter-wrap">
+    <div class="meter-arc"></div>
+    <div class="needle" id="needle"></div>
+    <div class="needle-dot"></div>
+  </div>
+
+  <!-- 👇 नीचे के Labels -->
+  <div class="labels">
+    <div class="label-low">न्यून</div>
+    <div class="label-mid">मध्यम</div>
+    <div class="label-high">उच्च</div>
+  </div>
+
 </div>
 
 <script>
 /*
-यह स्कोर सवालों से आता है
+यह स्कोर सवालों से आता है (0–100)
 */
 const score = Number(localStorage.getItem("meterScore")) || 50;
 
 /*
-Credit-score style mapping:
-0   → -90° (बायाँ / लाल)
-50  → 0°   (बीच)
-100 → +90° (दायाँ / हरा)
+0   → -90° (न्यून)
+50  → 0°   (मध्यम)
+100 → +90° (उच्च)
 */
 const angle = (score / 100) * 180 - 90;
 
