@@ -3,43 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>गीता आत्म-मूल्यांकन</title>
+<title>आत्म-मूल्यांकन</title>
 
 <style>
 body{
   margin:0;
   min-height:100vh;
-  font-family: system-ui, sans-serif;
-  background:radial-gradient(circle at top,#0f1c3f,#081126,#040812);
-  color:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
+  background:#0b0b0f;
+  font-family:system-ui,sans-serif;
+  color:#fff;
 }
 .card{
-  width:92%;
+  width:90%;
   max-width:420px;
-  background:rgba(255,255,255,0.06);
-  backdrop-filter: blur(14px);
-  border-radius:24px;
-  padding:24px;
+  background:#14141c;
+  border-radius:20px;
+  padding:22px;
 }
 .option{
   display:block;
-  margin:10px 0;
-  padding:12px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.08);
+  padding:10px;
+  margin:8px 0;
+  background:#1f1f2b;
+  border-radius:10px;
 }
 button{
   width:100%;
-  margin-top:18px;
+  margin-top:16px;
   padding:14px;
   border:none;
   border-radius:30px;
+  background:#00c6ff;
   font-size:16px;
-  background:linear-gradient(90deg,#00c6ff,#0072ff,#8e2de2);
-  color:#fff;
 }
 </style>
 </head>
@@ -49,70 +47,44 @@ button{
 <div class="card">
 <h3>आत्म-स्थिति मूल्यांकन</h3>
 
-<p>1. जब कोई निर्णय लेना कठिन हो तो ?</p>
-<label class="option"><input type="radio" name="q1" value="10"> निर्णय टाल देता/देती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="15"> दूसरों से सलाह लेता/लेती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="20"> मन की आवाज़ सुनता/सुनती हूँ</label>
-<label class="option"><input type="radio" name="q1" value="10"> परिस्थिति को दोष देता/देती हूँ</label>
+<p>1. निर्णय कठिन हो तो?</p>
+<label class="option"><input type="radio" name="q1" value="10"> टाल देता हूँ</label>
+<label class="option"><input type="radio" name="q1" value="20"> मन की सुनता हूँ</label>
 
-<p>2. परिणाम विपरीत हो तो ?</p>
-<label class="option"><input type="radio" name="q2" value="10"> क्रोध आ जाता है</label>
-<label class="option"><input type="radio" name="q2" value="10"> निराशा होती है</label>
-<label class="option"><input type="radio" name="q2" value="20"> आत्म-विश्लेषण जरूरी लगता है</label>
-<label class="option"><input type="radio" name="q2" value="10"> भाग्य को दोष देता/देती हूँ</label>
+<p>2. परिणाम विपरीत हो तो?</p>
+<label class="option"><input type="radio" name="q2" value="10"> क्रोध</label>
+<label class="option"><input type="radio" name="q2" value="20"> आत्म-विश्लेषण</label>
 
-<p>3. कर्म का अर्थ क्या है ?</p>
-<label class="option"><input type="radio" name="q3" value="15"> केवल काम</label>
+<p>3. कर्म का अर्थ?</p>
 <label class="option"><input type="radio" name="q3" value="10"> परिणाम</label>
-<label class="option"><input type="radio" name="q3" value="20"> कर्तव्य</label>
-<label class="option"><input type="radio" name="q3" value="25"> आत्म-विकास</label>
+<label class="option"><input type="radio" name="q3" value="25"> कर्तव्य</label>
 
-<p>4. अपमान पर ?</p>
-<label class="option"><input type="radio" name="q4" value="10"> तुरंत प्रतिक्रिया देते हैं</label>
-<label class="option"><input type="radio" name="q4" value="15"> दबा लेते हैं</label>
-<label class="option"><input type="radio" name="q4" value="25"> शांत रहते हैं</label>
-<label class="option"><input type="radio" name="q4" value="10"> बदले की भावना होती है</label>
+<p>4. अपमान पर?</p>
+<label class="option"><input type="radio" name="q4" value="10"> प्रतिक्रिया</label>
+<label class="option"><input type="radio" name="q4" value="25"> शांत</label>
 
-<p>5. जीवन की दृष्टि क्या है ?</p>
+<p>5. जीवन दृष्टि?</p>
 <label class="option"><input type="radio" name="q5" value="10"> संघर्ष</label>
-<label class="option"><input type="radio" name="q5" value="20"> अवसर</label>
 <label class="option"><input type="radio" name="q5" value="25"> कर्मभूमि</label>
-<label class="option"><input type="radio" name="q5" value="10"> बोझ</label>
 
-<button onclick="calculate()">मीटर देखें</button>
+<button onclick="go()">मीटर देखें</button>
 </div>
 
 <script>
-function calculate(){
+function go(){
   let total = 0;
-
   for(let i=1;i<=5;i++){
-    const sel = document.querySelector(`input[name=q${i}]:checked`);
-    if(!sel){
-      alert("कृपया सभी प्रश्नों के उत्तर दें");
-      return;
-    }
-    total += Number(sel.value);
+    let r = document.querySelector(`input[name=q${i}]:checked`);
+    if(!r){ alert("सभी उत्तर दें"); return; }
+    total += Number(r.value);
   }
 
-  /*
-  अधिकतम अंक = 115 (20+20+25+25+25)
-  */
-  const MAX_TOTAL = 115;
-
-  // 0–100 normalize
-  let score = Math.round((total / MAX_TOTAL) * 100);
-
-  // safety clamp
-  score = Math.max(0, Math.min(100, score));
-
-  localStorage.setItem("meterScore", score);
-
-  // meter page
-  window.location.href = "meter.html";
+  // MAX = 115
+  let score = Math.round((total / 115) * 100);
+  localStorage.setItem("score", score);
+  location.href = "meter.html";
 }
 </script>
-
 
 </body>
 </html>
