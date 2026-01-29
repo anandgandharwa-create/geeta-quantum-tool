@@ -46,7 +46,7 @@ body{
   bottom:0;
   left:50%;
   transform-origin:bottom;
-  transform:rotate(-90deg);
+  transform:rotate(0deg); /* ❌ -90 हटाया */
   border-radius:2px;
   transition:transform 1.6s cubic-bezier(.25,.8,.25,1);
 }
@@ -123,26 +123,32 @@ button{
 </div>
 
 <script>
-/* =================================================
-   यह स्कोर सवालों से आता है (0–100)
-   ================================================= */
-const score = Number(localStorage.getItem("meterScore")) || 0;
+/* ===============================
+   स्कोर (0–100) – safe clamp
+   =============================== */
+let score = Number(localStorage.getItem("meterScore"));
+if(isNaN(score)) score = 0;
+score = Math.max(0, Math.min(100, score));
 
-/* =================================================
+/* ===============================
    सुई का घुमाव
-   ================================================= */
+   -90°  → लाल (न्यून)
+   0°    → मध्यम
+   +90°  → उच्च
+   =============================== */
 const angle = (score / 100) * 180 - 90;
 
+/* Animate needle */
 setTimeout(()=>{
   document.getElementById("needle")
     .style.transform = "rotate(" + angle + "deg)";
 },400);
 
-/* =================================================
-   ZONE DETECTION + LABEL GLOW + BUTTON COLOR
-   ================================================= */
+/* ===============================
+   ZONE + LABEL + COLOR
+   =============================== */
 let level = 1;
-let color = "#ff2e2e"; // default लाल
+let color = "#ff2e2e";
 
 if(score <= 25){
   level = 1; // 🔴 न्यून
@@ -160,21 +166,20 @@ else{
   color = "#00c853";
 }
 
-/* Button color apply */
+/* Button color */
 const btn = document.getElementById("resultBtn");
 btn.style.background = color;
 
-/* Result page ke liye data store */
+/* Result ke liye save */
 localStorage.setItem("resultLevel", level);
 localStorage.setItem("resultColor", color);
 
-/* =================================================
-   RESULT PAGE NAVIGATION
-   ================================================= */
+/* Navigation */
 function goToResult(){
   window.location.href = "result.html";
 }
 </script>
+
 
 </body>
 </html>
