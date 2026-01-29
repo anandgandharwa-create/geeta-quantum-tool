@@ -85,17 +85,34 @@ button{
 <script>
 function calculate(){
   let total = 0;
+
   for(let i=1;i<=5;i++){
     const sel = document.querySelector(`input[name=q${i}]:checked`);
-    if(!sel){ alert("कृपया सभी प्रश्नों के उत्तर दें"); return; }
+    if(!sel){
+      alert("कृपया सभी प्रश्नों के उत्तर दें");
+      return;
+    }
     total += Number(sel.value);
   }
-  // normalize to 0–100
-  let score = Math.round((total / 125) * 100);
+
+  /*
+  अधिकतम अंक = 115 (20+20+25+25+25)
+  */
+  const MAX_TOTAL = 115;
+
+  // 0–100 normalize
+  let score = Math.round((total / MAX_TOTAL) * 100);
+
+  // safety clamp
+  score = Math.max(0, Math.min(100, score));
+
   localStorage.setItem("meterScore", score);
-  location.href = "meter.html";
+
+  // meter page
+  window.location.href = "meter.html";
 }
 </script>
+
 
 </body>
 </html>
